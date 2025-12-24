@@ -1,0 +1,29 @@
+# Core
+python>=3.9
+
+# Data handling
+pandas
+numpy
+
+# Database
+psycopg2-binary
+
+
+# Visualization & App
+streamlit
+plotly
+
+# Machine Learning
+scikit-learn
+xgboost
+joblib
+
+# NLP / RAG
+sentence-transformers
+scikit-learn
+
+# GenAI (Groq)
+groq
+
+# Utilities
+python-dotenv
