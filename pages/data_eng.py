@@ -141,14 +141,3 @@ st.dataframe(
     use_container_width=True
 )
 
-# =========================
-# INTERVIEW FLEX
-# =========================
-st.success("""
-🎤 Interview Explanation:
-
-"I resolved a real-world granularity mismatch by aggregating transactional
-order data to daily level and joining it with time-series marketing data
-using SQL CTEs. This master view acts as the foundation for analytics,
-machine learning, and GenAI layers."
-""")
