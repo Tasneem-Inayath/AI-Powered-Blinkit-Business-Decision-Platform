@@ -1,11 +1,21 @@
 -- Active: 1766155882698@@127.0.0.1@5432@blinkit_db@public
-CREATE OR REPLACE VIEW master_analytical_view AS
 WITH
     daily_orders AS (
         SELECT
             DATE (order_date) AS date,
             COUNT(order_id) AS total_orders,
-            SUM(order_total) AS total_revenue
+            SUM(order_total) AS total_revenue,
+            AVG(
+                GREATEST(
+                    EXTRACT(
+                        EPOCH
+                        FROM (
+                                actual_delivery_time - promised_delivery_time
+                            )
+                    ) / 60,
+                    0
+                )
+            ) AS avg_delay_minutes
         FROM blinkit_orders_clean
         GROUP BY
             DATE (order_date)
@@ -24,7 +34,8 @@ SELECT
     CASE
         WHEN COALESCE(s.total_spend, 0) = 0 THEN NULL
         ELSE o.total_revenue / s.total_spend
-    END AS roas
+    END AS roas,
+    o.avg_delay_minutes
 FROM daily_orders o
     LEFT JOIN daily_spend s ON o.date = s.date
 ORDER BY o.date;
