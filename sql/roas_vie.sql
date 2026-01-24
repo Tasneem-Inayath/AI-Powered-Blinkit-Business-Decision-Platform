@@ -1,4 +1,4 @@
--- Active: 1766155882698@@127.0.0.1@5432@blinkit_db@public
+CREATE OR REPLACE VIEW master_analytical_view AS
 WITH
     daily_orders AS (
         SELECT
