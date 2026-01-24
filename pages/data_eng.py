@@ -111,7 +111,9 @@ def load_master_view():
         SELECT
             date,
             total_orders,
-            total_revenue
+            total_revenue,
+            total_spend,
+            roas
         FROM master_analytical_view
         ORDER BY date;
     """
@@ -121,15 +123,19 @@ def load_master_view():
 
 master_df = load_master_view()
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
     st.line_chart(master_df.set_index("date")["total_orders"])
-    st.caption("One row per day → total orders")
+    st.caption("Daily total orders")
 
 with col2:
     st.line_chart(master_df.set_index("date")["total_revenue"])
-    st.caption("One row per day → total revenue")
+    st.caption("Daily revenue")
+
+with col3:
+    st.line_chart(master_df.set_index("date")["roas"])
+    st.caption("Daily ROAS (Return on Ad Spend)")
 
 # =========================
 # SHOW SAMPLE DATA

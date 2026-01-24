@@ -1,8 +1,11 @@
 -- Active: 1766155882698@@127.0.0.1@5432@blinkit_db@public
 CREATE OR REPLACE VIEW master_analytical_view AS
 WITH
-    daily_revenue AS (
-        SELECT DATE (order_date) AS date, SUM(order_total) AS total_revenue
+    daily_orders AS (
+        SELECT
+            DATE (order_date) AS date,
+            COUNT(order_id) AS total_orders,
+            SUM(order_total) AS total_revenue
         FROM blinkit_orders_clean
         GROUP BY
             DATE (order_date)
@@ -13,7 +16,15 @@ WITH
         GROUP BY
             date
     )
-SELECT r.date, r.total_revenue, s.total_spend, r.total_revenue / NULLIF(s.total_spend, 0) AS roas
-FROM
-    daily_revenue r
-    LEFT JOIN daily_spend s ON r.date = s.date;
+SELECT
+    o.date,
+    o.total_orders,
+    o.total_revenue,
+    COALESCE(s.total_spend, 0) AS total_spend,
+    CASE
+        WHEN COALESCE(s.total_spend, 0) = 0 THEN NULL
+        ELSE o.total_revenue / s.total_spend
+    END AS roas
+FROM daily_orders o
+    LEFT JOIN daily_spend s ON o.date = s.date
+ORDER BY o.date;
