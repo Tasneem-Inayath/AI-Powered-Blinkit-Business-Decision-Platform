@@ -152,5 +152,7 @@ Built an end-to-end business decision platform using SQL, Streamlit, Machine Lea
 ## 📈 Project Status
 
 ✅ Completed · Portfolio-Ready  
+```Review of Project
+https://ai-powered-blinkit-business-decision.onrender.com/
 ```
 
