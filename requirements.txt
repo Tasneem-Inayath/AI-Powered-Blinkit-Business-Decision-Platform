@@ -1,6 +1,3 @@
-# Core
-python>=3.9
-
 # Data handling
 pandas
 numpy
